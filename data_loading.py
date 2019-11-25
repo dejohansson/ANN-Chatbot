@@ -29,10 +29,9 @@ def preprocess_pandas(data, columns):
         }, ignore_index=True)
     return data
 
-# If this is the primary file that is executed (ie not an import of another file)
-if __name__ == "__main__":
+def load_data(file_name):
     # get data, pre-process and split
-    data = pd.read_csv("amazon_cells_labelled.txt", delimiter='\t', header=None)
+    data = pd.read_csv(file_name, delimiter='\t', header=None)
     data.columns = ['Sentence', 'Class']
     data['index'] = data.index                                          # add new column index
     columns = ['index', 'Class', 'Sentence']
@@ -56,3 +55,4 @@ if __name__ == "__main__":
     train_y_tensor = torch.from_numpy(np.array(training_labels)).long()
     validation_x_tensor = torch.from_numpy(np.array(validation_data)).type(torch.FloatTensor)
     validation_y_tensor = torch.from_numpy(np.array(validation_labels)).long()
+    return train_x_tensor, train_y_tensor, validation_x_tensor, validation_y_tensor
